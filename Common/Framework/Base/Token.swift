@@ -48,10 +48,11 @@ public class Token : Printable{
         self.originalStringIndex = index
     }
     
-    
     public var description : String {
-        if (originalStringIndex != nil) {
-            return "\(name) '\(characters)' at \(originalStringIndex)"
+        if (originalStringIndex != nil && originalStringLine != nil) {
+            return "\(name) '\(characters)' at \(originalStringLine!),\(originalStringIndex!) "
+        } else if (originalStringIndex != nil) {
+            return "\(name) '\(characters)' at \(originalStringIndex!)"
         } else {
             return "\(name) '\(characters)'"
         }
