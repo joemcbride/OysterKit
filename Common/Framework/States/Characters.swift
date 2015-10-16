@@ -32,16 +32,15 @@ import Foundation
 //
 public class Characters : TokenizationState{
     let allowedCharacters : String
-    let inverted = false
+    let inverted:Bool
     
-    override func stateClassName()->String {
+    public override func stateClassName()->String {
         return "Char \(allowedCharacters)"
     }
-
- 
     
     public init(from:String){
         self.allowedCharacters = from
+        self.inverted = false
         super.init()
     }
     

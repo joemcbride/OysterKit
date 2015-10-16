@@ -21,7 +21,7 @@ public class Named : TokenizationState {
         super.init()
     }
     
-    override func stateClassName() -> String {
+    public override func stateClassName() -> String {
         return "Named"
     }
     

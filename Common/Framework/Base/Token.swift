@@ -89,23 +89,23 @@ public class Token : Printable{
     }
 }
 
-class WhiteSpaceToken : Token{
+public class WhiteSpaceToken : Token{
     
     init(characters:String, startingAt:Int){
         super.init(name: "whitespace", withCharacters: characters)
         originalStringIndex = startingAt
     }
     
-    override class func createToken(state:TokenizationState,capturedCharacters:String,startIndex:Int)->Token{
+    override public class func createToken(state:TokenizationState,capturedCharacters:String,startIndex:Int)->Token{
         return WhiteSpaceToken(characters:capturedCharacters, startingAt: startIndex)
     }
     
-    override var description:String {
+    override public var description:String {
         return self.name
     }
 }
 
-class NumberToken : Token{
+public class NumberToken : Token{
     var numericValue:Double
     
     init(value:Double,characters:String){
@@ -143,11 +143,11 @@ class NumberToken : Token{
         }
     }
     
-    override var description:String {
-    return "number = \(numericValue)"
+    override public var description:String {
+        return "number = \(numericValue)"
     }
     
-    override class func createToken(state:TokenizationState,capturedCharacters:String,startIndex:Int)->Token{
+    override public class func createToken(state:TokenizationState,capturedCharacters:String,startIndex:Int)->Token{
         var token = NumberToken(usingString:capturedCharacters)
         token.originalStringIndex = startIndex
         return token

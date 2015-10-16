@@ -43,7 +43,7 @@ public class Delimited : TokenizationState{
         
     }
     
-    override func stateClassName()->String {
+    public override func stateClassName()->String {
         return "Delimited"
     }
  

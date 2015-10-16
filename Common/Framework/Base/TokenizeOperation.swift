@@ -22,8 +22,8 @@ public protocol EmancipatedTokenizer {
 
 public class TokenizeOperation : Printable {
     public class Context : Printable {
-        var tokens = [Token]()
-        var consumedCharacters : String {
+        public var tokens = [Token]()
+        public var consumedCharacters : String {
             let substring = __sourceString[__startIndex..<__currentIndex]
                 
             return substring
@@ -35,8 +35,8 @@ public class TokenizeOperation : Printable {
         private var __startIndex : String.Index
         private var __currentIndex : String.Index
         
-        var startPosition : Int
-        var currentPosition : Int
+        public var startPosition : Int
+        public var currentPosition : Int
         
         private init(atPosition:Int, withMarker:String.Index, withStates:[TokenizationState], forString:String){
             __startIndex = withMarker
@@ -59,8 +59,8 @@ public class TokenizeOperation : Printable {
     }
     
     
-    var  current : Character
-    var  next : Character?
+    public var  current : Character
+    public var  next : Character?
     
     var  scanAdvanced = false
 
@@ -68,15 +68,15 @@ public class TokenizeOperation : Printable {
     private let  __startingStates : [TokenizationState]
     let  eot : Character = "\u{04}"
     private var  __marker : String.Generator {
-    didSet{
-        scanAdvanced = true
-    }
+        didSet{
+            scanAdvanced = true
+        }
     }
     private var  __contextStack = [Context]()
     private var  __sourceString : String
 
-    var  context : Context
-    var  complete : Bool {
+    public var  context : Context
+    public var  complete : Bool {
         return current == eot 
     }
     
@@ -133,7 +133,7 @@ public class TokenizeOperation : Printable {
         scan(self)
     }
     
-    func debug(operation:String=""){
+    public func debug(operation:String=""){
         if __debugScanning {
             scanDebug("\(operation) \(self)")
         }
@@ -246,7 +246,7 @@ extension TokenizeOperation : EmancipatedTokenizer {
             //TODO: I would like this to be tidier. Feels wierd in the main loop, I don't like that not 
             //issuing a token doesn't get you failure, don't like
             //If I am my own state
-            if __contextStack.count == 1 {
+            if __contextStack.count == 1 {//&& context.tokens.count > 0 {
                 context.startPosition = context.currentPosition
                 context.__startIndex = context.__currentIndex
                 __publishTokens(context)

@@ -31,7 +31,7 @@ import Foundation
 public class Branch : TokenizationState {
     var transientTransitionState:Branch?
     
-    override func stateClassName()->String {
+    public override func stateClassName()->String {
         return "Branch"
     }
     

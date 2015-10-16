@@ -40,7 +40,7 @@ public class Tokenizer : TokenizationState {
         branches = states
     }
     
-    public func tokenize(string: String, newToken: (Token)->Bool) {
+    public func tokenize(string: String, _ newToken: (Token)->Bool) {
         var emancipatedTokenization = TokenizeOperation(legacyTokenizer: self)
         
         emancipatedTokenization.tokenize(string, tokenReceiver: newToken)
@@ -49,7 +49,7 @@ public class Tokenizer : TokenizationState {
     public func tokenize(string:String) -> Array<Token>{
         var tokens = Array<Token>()
         
-        tokenize(string, newToken: {(token:Token)->Bool in
+        tokenize(string, {(token:Token)->Bool in
             tokens.append(token)
             return true
         })

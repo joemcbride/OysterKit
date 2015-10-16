@@ -9,7 +9,7 @@
 import Foundation
 
 public class Keywords : TokenizationState {
-    override func stateClassName()->String {
+    public override func stateClassName()->String {
         return "Keywords"
     }
     

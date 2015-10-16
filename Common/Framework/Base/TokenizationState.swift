@@ -40,11 +40,11 @@ public class TokenizationState : Printable, Equatable /*StringLiteralConvertible
     var branches = Array<TokenizationState>() //All states that can be transitioned to
     
     
-    func stateClassName()-> String {
+    public func stateClassName()-> String {
         return "TokenizationState"
     }
     
-    init(){
+    public init(){
         id = "\(stateClassName())\(__anonymousStateCount++)"
     }
     
@@ -243,7 +243,7 @@ public class TokenizationState : Printable, Equatable /*StringLiteralConvertible
         return id == otherState.id
     }
     
-    func scanBranches(operation:TokenizeOperation){
+    public func scanBranches(operation:TokenizeOperation){
         let startPosition = operation.context.currentPosition
         
         operation.debug(operation: "Entered TokenizationState at \(startPosition) with \(branches.count) states")
@@ -295,7 +295,7 @@ public typealias   TokenCreationBlock = ((state:TokenizationState,capturedCharac
 */
 extension TokenizationState : EmancipatedTokenizer {
     
-    func createToken(operation:TokenizeOperation,useCharacters:String?)->Token?{
+    public func createToken(operation:TokenizeOperation,useCharacters:String?)->Token?{
         var useCharacters = (useCharacters != nil) ? useCharacters : operation.context.consumedCharacters
         if let token = tokenGenerator?(state:self, capturedCharacteres:useCharacters!,charactersStartIndex:operation.context.startPosition){
             return token
@@ -304,7 +304,7 @@ extension TokenizationState : EmancipatedTokenizer {
         return nil
     }
     
-    func emitToken(operation:TokenizeOperation,useCharacters:String?=nil){
+    public func emitToken(operation:TokenizeOperation,useCharacters:String?=nil){
         if let token = createToken(operation,useCharacters: useCharacters) {
             operation.token(token)
         }

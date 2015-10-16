@@ -18,7 +18,7 @@ public class LoopingCharacters : Characters {
         super.init(from:from)
     }
     
-    override func stateClassName()->String {
+    public override func stateClassName()->String {
         return "LoopingChar \(allowedCharacters)"
     }
     
