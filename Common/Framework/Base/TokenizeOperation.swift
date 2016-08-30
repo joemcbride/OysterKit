@@ -12,7 +12,7 @@ public var __debugScanning = false
 
 func scanDebug(message:String){
     if __debugScanning {
-        println(message)
+        print(message)
     }
 }
 
@@ -20,8 +20,8 @@ public protocol EmancipatedTokenizer {
      func scan(operation:TokenizeOperation)
 }
 
-public class TokenizeOperation : Printable {
-    public class Context : Printable {
+public class TokenizeOperation : CustomStringConvertible {
+    public class Context : CustomStringConvertible {
         public var tokens = [Token]()
         public var consumedCharacters : String {
             let substring = __sourceString[__startIndex..<__currentIndex]
@@ -67,7 +67,7 @@ public class TokenizeOperation : Printable {
     private var  __tokenHandler : (Token)->Bool
     private let  __startingStates : [TokenizationState]
     let  eot : Character = "\u{04}"
-    private var  __marker : String.Generator {
+    private var  __marker : IndexingGenerator<String.CharacterView> {
         didSet{
             scanAdvanced = true
         }
@@ -94,13 +94,13 @@ public class TokenizeOperation : Printable {
     //For now, to help with compatibility
     init(legacyTokenizer:Tokenizer){
         __sourceString = "\u{0004}"
-        __marker = __sourceString.generate()
+        __marker = __sourceString.characters.generate()
         current = __marker.next()!
         next = __marker.next()
         
         __startingStates = legacyTokenizer.branches
         __tokenHandler = {(token:Token)->Bool in
-            println("No token handler specified")
+            print("No token handler specified")
             return false
         }
         
@@ -116,7 +116,7 @@ public class TokenizeOperation : Printable {
         
         //Prepare string
         __sourceString = string
-        __marker = __sourceString.generate()
+        __marker = __sourceString.characters.generate()
         
         //Prepare stack and context
         __contextStack.removeAll(keepCapacity: true)
@@ -162,7 +162,7 @@ public class TokenizeOperation : Printable {
         context.startPosition = context.currentPosition
         context.__startIndex = context.__currentIndex
         
-        debug(operation: "token()")
+        debug("token()")
     }
     
     
@@ -181,7 +181,7 @@ public class TokenizeOperation : Printable {
 
         inContext.tokens.removeAll(keepCapacity: true)
         
-        debug(operation:"publishTokens()")
+        debug("publishTokens()")
         
         return true
     }
@@ -193,7 +193,7 @@ public class TokenizeOperation : Printable {
         let newContext = Context(atPosition: context.currentPosition, withMarker:context.__currentIndex, withStates: states, forString:__sourceString)
         __contextStack.append(newContext)
         context = newContext
-        debug(operation: "pushContext()")
+        debug("pushContext()")
     }
     
     
@@ -205,7 +205,7 @@ public class TokenizeOperation : Printable {
         }
         
         if __contextStack.count == 1 {
-            debug(operation: "popContext()")
+            debug("popContext()")
             return
         }
         
@@ -222,7 +222,7 @@ public class TokenizeOperation : Printable {
         context.currentPosition = poppedState.currentPosition
         context.__currentIndex = poppedState.__currentIndex
         
-        debug(operation: "popContext()")
+        debug("popContext()")
     }
 }
 
@@ -233,7 +233,7 @@ extension TokenizeOperation : EmancipatedTokenizer {
         
         while scanAdvanced && !complete {
             scanAdvanced = false
-            debug(operation: "rootScan Start")
+            debug("rootScan Start")
 
             //Scan through our branches
             for tokenizer in context.states {
@@ -252,7 +252,7 @@ extension TokenizeOperation : EmancipatedTokenizer {
                 __publishTokens(context)
             }
             
-            debug(operation: "rootScan End")
+            debug("rootScan End")
         }
     }
 }

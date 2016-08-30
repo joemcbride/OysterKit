@@ -54,7 +54,7 @@ public class Characters : TokenizationState{
     }
     
     func isAllowed(character:Character)->Bool{
-        for allowedCharacter in allowedCharacters{
+        for allowedCharacter in allowedCharacters.characters{
             if allowedCharacter == character {
                 return !inverted
             }
@@ -73,7 +73,7 @@ public class Characters : TokenizationState{
         var output = annotations()
         
         output+="\""
-        for character in allowedCharacters{
+        for character in allowedCharacters.characters{
             switch character {
             case "\\":
                 output+="\\\\"
@@ -114,7 +114,7 @@ public class Characters : TokenizationState{
     }
     
     public override func scan(operation: TokenizeOperation) {
-        operation.debug(operation: "Entered "+(inverted ? "!" : "")+"Char '\(allowedCharacters)'")
+        operation.debug("Entered "+(inverted ? "!" : "")+"Char '\(allowedCharacters)'")
 
         if isAllowed(operation.current) {
             //Move scanning forward

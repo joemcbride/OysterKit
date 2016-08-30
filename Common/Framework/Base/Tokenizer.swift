@@ -41,7 +41,7 @@ public class Tokenizer : TokenizationState {
     }
     
     public func tokenize(string: String, _ newToken: (Token)->Bool) {
-        var emancipatedTokenization = TokenizeOperation(legacyTokenizer: self)
+        let emancipatedTokenization = TokenizeOperation(legacyTokenizer: self)
         
         emancipatedTokenization.tokenize(string, tokenReceiver: newToken)
     }

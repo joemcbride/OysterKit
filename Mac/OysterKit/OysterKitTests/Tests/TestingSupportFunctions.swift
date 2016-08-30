@@ -46,21 +46,21 @@ func char(chars:String)->TokenizationState{
 func printAsTest(tokenizer:Tokenizer, string:String, variableName:String){
     //tokenizer.tokenize("xyxz") == [token("xy"),token("xz")])
     
-    print("\nXCTAssert(tokenizer.tokenize(\(variableName)) == [")
+    print("\nXCTAssert(tokenizer.tokenize(\(variableName)) == [", terminator: "")
     tokenizer.tokenize(string){(token:Token)->Bool in
-        print("token(\""+token.name+"\",chars:\""+token.characters+"\"), ")
+        print("token(\""+token.name+"\",chars:\""+token.characters+"\"), ", terminator: "")
         return true
     }
-    print("])")
+    print("])", terminator: "")
 }
 
 func dump(izer:Tokenizer,with:String){
-    println("\nTokenizing "+with)
+    print("\nTokenizing "+with)
     izer.tokenize(with){(token:Token)->Bool in
-        println("\t"+token.description)
+        print("\t"+token.description)
         return true
     }
-    println("\n")
+    print("\n")
 }
 
 extension XCTestCase {
@@ -69,7 +69,7 @@ extension XCTestCase {
         let bundle = NSBundle(identifier:"com.rwe-uk.OysterKitTests")
         
         if let url = bundle?.URLForResource(fileName, withExtension: ext) {
-            return String(contentsOfURL: url, encoding: NSUTF8StringEncoding, error: nil)
+            return try? String(contentsOfURL: url, encoding: NSUTF8StringEncoding)
         } else {
            let allFiles =  bundle?.URLsForResourcesWithExtension(nil, subdirectory: nil)
             
@@ -90,9 +90,9 @@ extension XCTestCase {
                 let testToken = underTest[index]
                 let refToken = reference[index]
                 if testToken == refToken {
-                    println("OK  : \(testToken)")
+                    print("OK  : \(testToken)")
                 } else {
-                    println("FAIL: \(testToken) != \(refToken)")
+                    print("FAIL: \(testToken) != \(refToken)")
                 }
             }
         }

@@ -34,8 +34,8 @@ class parserTests: XCTestCase {
         return parserErrors
     }
     
-    func parserTest(#script:String, thenTokenizing tokenize:String)->[Token]{
-        var tokenizer = parser.parse(script)
+    func parserTest(script script:String, thenTokenizing tokenize:String)->[Token]{
+        let tokenizer = parser.parse(script)
         
         var parserErrors = ""
         for error in parser.errors {
@@ -43,10 +43,10 @@ class parserTests: XCTestCase {
         }
         
         if __debugScanning {
-            println(tokenizer.description)
+            print(tokenizer.description)
         }
         
-        XCTAssert(count(parserErrors)==0, "\n\nParsing of \(script) failed with errors:\n\(parserErrors) after creating \n\(tokenizer) from token stream \(OKScriptTokenizer().tokenize(script))")
+        XCTAssert(parserErrors.characters.count==0, "\n\nParsing of \(script) failed with errors:\n\(parserErrors) after creating \n\(tokenizer) from token stream \(OKScriptTokenizer().tokenize(script))")
         
         return tokenizer.tokenize(tokenize)
     }
@@ -101,9 +101,9 @@ class parserTests: XCTestCase {
     }
     
     func testUnicode(){
-        var testString = "{!\"\\x04\"->anything}"
+        let testString = "{!\"\\x04\"->anything}"
         
-        var tokenizer = OKStandard.parseTokenizer(testString)!
+        let tokenizer = OKStandard.parseTokenizer(testString)!
         
         
         assertTokenListsEqual(tokenizer.tokenize("823947283479238428348734"), reference: [token("anything",chars:"8"), token("anything",chars:"2"), token("anything",chars:"3"), token("anything",chars:"9"), token("anything",chars:"4"), token("anything",chars:"7"), token("anything",chars:"2"), token("anything",chars:"8"), token("anything",chars:"3"), token("anything",chars:"4"), token("anything",chars:"7"), token("anything",chars:"9"), token("anything",chars:"2"), token("anything",chars:"3"), token("anything",chars:"8"), token("anything",chars:"4"), token("anything",chars:"2"), token("anything",chars:"8"), token("anything",chars:"3"), token("anything",chars:"4"), token("anything",chars:"8"), token("anything",chars:"7"), token("anything",chars:"3"), token("anything",chars:"4"), ])
@@ -124,7 +124,7 @@ class parserTests: XCTestCase {
             parserErrors+="\t\(error)\n"
         }
         
-        XCTAssert(count(parserErrors) == 0, "Self parsing generated an error:\n\(parserErrors) with \n\(tokFileTokDef)\n")
+        XCTAssert(parserErrors.characters.count == 0, "Self parsing generated an error:\n\(parserErrors) with \n\(tokFileTokDef)\n")
 
         //Tokenize original serialized description with the parsed tokenizer built from my own serialized description
         let parserGeneratedTokens = generatedTokenizer.tokenize(tokFileTokDef)

@@ -120,7 +120,7 @@ class tokenizerTests: XCTestCase {
     }
     
     func testRecursiveChar(){
-        println(OKStandard.parseState(Characters(from:"hello").token("hi").description)!.description)
+        print(OKStandard.parseState(Characters(from:"hello").token("hi").description)!.description)
     }
     
 
