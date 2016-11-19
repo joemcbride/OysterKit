@@ -94,7 +94,7 @@ public class Repeat : TokenizationState{
             operation.debug("After repeat scan")
             
             if operation.context.tokens.count > 0 {
-                repeats++
+                repeats += 1
                 tokensCreated = true
                 
                 operation.debug("Repeating state created token, about to clear")

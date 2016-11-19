@@ -38,9 +38,7 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
     
     var textStorage:NSTextStorage!{
     willSet{
-        if let reallyAvailable = textStorage? {
-            textStorage.delegate = nil
-        }
+        textStorage?.delegate = nil
     }
     didSet{
         textStorage.delegate = self
@@ -115,7 +113,7 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
         let finalRange = (editedRange != nil) ? editedRange! : self.textStorage.editedRange
         editedRange = nil
         
-        println("Using base range: \(finalRange)")
+        print("Using base range: \(finalRange)")
         
         
         var actualRangeStart = finalRange.location
@@ -123,7 +121,7 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
         var parseLocation = 0
         var foundStart = false
         
-        for character in self.textStorage.string as String {
+        for character in self.textStorage.string.characters {
             if character == "\n" {
                 if parseLocation < finalRange.location {
                     actualRangeStart = parseLocation
@@ -133,7 +131,7 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
                 }
             }
             
-            parseLocation++
+            parseLocation += 1
         }
         
         let nsString : NSString = textStorage.string
@@ -141,13 +139,13 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
         let adaptiveRange = NSMakeRange(actualRangeStart, actualRangeEnd-actualRangeStart)
         
         
-        println("Adaptive range: \(adaptiveRange)")
+        print("Adaptive range: \(adaptiveRange)")
         
         
         let adaptiveString = nsString.substringWithRange(adaptiveRange)
         
         let string = self.textStorage.string as String
-        let tokenizeRange = NSMakeRange(0, countElements(string))
+        let tokenizeRange = NSMakeRange(0, string.characters.count)
         
         
         tokenizationOperation = NSBlockOperation(){
@@ -163,16 +161,16 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
             highlightingTimer = nil
         }
         
-        highlightingTimer = NSTimer(timeInterval: highlightingDelay, target: self, selector: Selector("prepareToHighlight"), userInfo: nil, repeats: false)
+        highlightingTimer = NSTimer(timeInterval: highlightingDelay, target: self, selector: #selector(TokenHighlighter.prepareToHighlight), userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(highlightingTimer!, forMode: NSRunLoopCommonModes)
     }
     
-    func textStorageDidProcessEditing(notification: NSNotification!) {
+    override func textStorageDidProcessEditing(notification: NSNotification!) {
         editedRange = editedRange != nil ? editedRange!.unionWith(textStorage.editedRange) : textStorage.editedRange
         
         scheduleHighlighting()
     }
-    
+
     func layoutManager(layoutManager: NSLayoutManager!, shouldUseTemporaryAttributes attrs: [NSObject : AnyObject]!, forDrawingToScreen toScreen: Bool, atCharacterIndex charIndex: Int, effectiveRange effectiveCharRange: NSRangePointer) -> [NSObject : AnyObject]! {
         if !toScreen {
             return attrs
@@ -187,11 +185,11 @@ class TokenHighlighter : NSObject, NSTextStorageDelegate, NSLayoutManagerDelegat
         
         if let token:Token = attrs[__TokenKey] as? Token {
             if let color = tokenColorMap[token.name] {
-                var returnAttributes : NSMutableDictionary = NSMutableDictionary(dictionary: attrs)
+                let returnAttributes : NSMutableDictionary = NSMutableDictionary(dictionary: attrs)
                 
                 returnAttributes[NSForegroundColorAttributeName] = color
                 
-                return returnAttributes
+                return returnAttributes as [NSObject : AnyObject]
             }
         }
         

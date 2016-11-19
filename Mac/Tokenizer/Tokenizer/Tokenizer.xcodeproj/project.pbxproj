@@ -181,9 +181,11 @@
 				TargetAttributes = {
 					42146BE61966DD4E009BA88A = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0810;
 					};
 					42146BF81966DD4E009BA88A = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0810;
 						TestTargetID = 42146BE61966DD4E009BA88A;
 					};
 				};
@@ -368,6 +370,7 @@
 				INFOPLIST_FILE = Tokenizer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -385,6 +388,7 @@
 				INFOPLIST_FILE = Tokenizer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -406,6 +410,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -424,6 +429,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;

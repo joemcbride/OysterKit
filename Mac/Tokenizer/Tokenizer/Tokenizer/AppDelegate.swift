@@ -48,11 +48,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextStorageDelegate {
     var lastInput = ""
     
     var testInputTextView : NSTextView {
-        return testInputScroller.contentView.documentView as NSTextView
+        return testInputScroller.contentView.documentView as! NSTextView
     }
     
     var tokenizerDefinitionTextView : NSTextView {
-        return tokenizerDefinitionScrollView.contentView.documentView as NSTextView
+        return tokenizerDefinitionScrollView.contentView.documentView as! NSTextView
     }
 
     
@@ -82,15 +82,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextStorageDelegate {
     }
     
     func loadFromDefaults(){
-        var defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = NSUserDefaults.standardUserDefaults()
         
         tokenizerDefinitionTextView.string = defaults.stringForKey(keyTokenizerString)
         testInputTextView.string = defaults.stringForKey(keyTokenizerText)
         
-        var dictionary = defaults.dictionaryForKey(keyColors) as Dictionary<String, NSData>
+        let dictionary = defaults.dictionaryForKey(keyColors) as! Dictionary<String, NSData>
         highlighter.tokenColorMap = [String:NSColor]()
         for (tokenName,tokenColorData) in dictionary {
-            var tokenColor : NSColor = NSUnarchiver.unarchiveObjectWithData(tokenColorData) as NSColor
+            let tokenColor : NSColor = NSUnarchiver.unarchiveObjectWithData(tokenColorData) as! NSColor
             highlighter.tokenColorMap[tokenName] = tokenColor
         }
     }
@@ -171,7 +171,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextStorageDelegate {
         
         buildProgressIndicator.startAnimation(self)
         
-        buildTokenizerTimer = NSTimer(timeInterval: 1.0, target: self, selector:Selector("doBuild"), userInfo: nil, repeats: false)
+        buildTokenizerTimer = NSTimer(timeInterval: 1.0, target: self, selector:#selector(AppDelegate.doBuild), userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(buildTokenizerTimer!, forMode: NSRunLoopCommonModes)
     }
 }
